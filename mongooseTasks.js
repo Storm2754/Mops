@@ -1,15 +1,17 @@
 //для изучения Momgoose  
 
-var mongoose = require('mongoose')
+var mongoose= require('mongoose')
 mongoose.connect('mongodb://127.0.0.1:27017/test')
 
-var Dog = mongoose.model('Dog', { name: String })
+var schema= mongoose.Schema({ name: String})
 
-var puppy = new Dog({ name: 'Мягкость'})
-puppy.save(function (err) {
-if (err) {
-console.log(err)
-    } else {
-console.log('Гаф')
-    }
+schema.methods.meow= function(){
+console.log(this.get("name") + "сонная собака")
+}
+
+var Dog= mongoose.model('Dog', schema)
+
+var puppy= new Dog({ name: 'Мягкая '})
+puppy.save(function(err) {
+    puppy.meow()
 })
