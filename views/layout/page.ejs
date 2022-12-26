@@ -5,9 +5,10 @@
 <link rel='stylesheet'href='/stylesheets/style.css'/>
 </head>
 <body>
-    <% layout('./layout/page.ejs') %>
-<h1><%= title %></h1>
-<img src="<%= picture %>"alt=""/>
-<h4> <%=desc%></h4>
+<%- body %>
 </body>
 </html>
+<body>
+
+
+    <!-- Неэкранированный вывод <%- body %> -->
