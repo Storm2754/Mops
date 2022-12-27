@@ -15,16 +15,13 @@
 <li class="nav-item">
 <a class="nav-link"href="/">Главная</a>
 </li>
-<li class="nav-item">
-<a class="nav-link"href="/dogs/history">История</a>
-</li>
-<li class="nav-item">
-<a class="nav-link"href="/dogs/kinds">Виды</a>
-</li>
-<li class="nav-item">
-<a class="nav-link"href="/dogs/common_features">Общие черты</a>
-</li>
-</ul>
+
+<% menu.forEach(function(dog){ %>
+    <li class="nav-item">
+    <a class="nav-link" href="/dogs/<%=dog.nick%>"><%=dog.title%></a>
+    </li>
+    <% }) %>
+
 <ul class="navbar-nav navbar-right">
 <li>
 <a class="nav-link"href="">Войти</a>
