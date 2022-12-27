@@ -31,12 +31,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));//объявление public папки
 app.use('/dogs', dogs);
 
+
+var MongoStore = require('connect-mongo')(session);//подключим модуль connect-mongo 
 //настройка сесси
 app.use(session({
   secret: "mops",
   cookie:{maxAge:60*1000},
   resave: true,
-  saveUninitialized: true	
+  saveUninitialized: true,
+  store: MongoStore.create({mongoUrl:'mongodb://127.0.0.1:27017/mops'})//добавим настройки сессии
   }))
   //опция maxAge:60*1000 определяет время жизни session в миллисекундах (60*1000 = 1 минута).
 
