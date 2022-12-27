@@ -1,26 +1,24 @@
+
+
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
-//подключение базы данных
 var mongoose = require('mongoose')
 mongoose.connect('mongodb://127.0.0.1:27017/mops')
-
-
-//Настройка работы сессии 
 var session = require("express-session")
 
 
-var dogs = require('./routes/dogs');//объявление нового маршрутизатора
+var dogs = require('./routes/dogs');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
 
 // view engine setup
-app.engine('ejs',require('ejs-locals'));//поднлючение шаблонизатора
+app.engine('ejs',require('ejs-locals'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -28,23 +26,26 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));//объявление public папки
+app.use(express.static(path.join(__dirname, 'public')));
 app.use('/dogs', dogs);
 
-
-var MongoStore = require('connect-mongo')(session);//подключим модуль connect-mongo 
-//настройка сесси
+var MongoStore = require('connect-mongo');(session);
 app.use(session({
   secret: "mops",
   cookie:{maxAge:60*1000},
   resave: true,
   saveUninitialized: true,
-  store: MongoStore.create({mongoUrl:'mongodb://127.0.0.1:27017/mops'})//добавим настройки сессии
-  }))
-  //опция maxAge:60*1000 определяет время жизни session в миллисекундах (60*1000 = 1 минута).
+  store: MongoStore.create({mongoUrl: 'mongodb://127.0.0.1:27017/mops'})
+}))
+app.use(function(req,res,next){
+  req.session.counter = req.session.counter +1 || 1
+  next()
+})
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -59,7 +60,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', {title:'Ошибка', menu:[]});
 });
 
 module.exports = app;
