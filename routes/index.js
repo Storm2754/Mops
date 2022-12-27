@@ -2,12 +2,11 @@ var express = require('express')
 var router = express.Router()
 var Dog = require("../models/dog").Dog
 
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  req.session.greeting = "Hi!!!"
-  res.render('index', { title: 'Express', menu:menu});
+  res.render('index', { title: 'Express', menu:menu, counter:req.session.counter });
 });
+
 
 
 module.exports= router;
