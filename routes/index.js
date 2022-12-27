@@ -6,7 +6,9 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-/* Страница истории */ 
+
+/*
+
 
   router.get('/history', function(req, res, next) {
     res.render('dog', {
@@ -17,7 +19,7 @@ router.get('/', function(req, res, next) {
     });
     
 
-/* Страница видов */ 
+
 
 router.get('/kinds', function(req, res, next) {
   res.render('dog', {
@@ -28,7 +30,7 @@ router.get('/kinds', function(req, res, next) {
   });
 
 
-  /* Страница общие черты */ 
+
 
   router.get('/common_features', function(req, res, next) {
     res.render('dog', {
@@ -38,5 +40,6 @@ router.get('/kinds', function(req, res, next) {
     });
     });
 
+    */
 
 module.exports = router;
