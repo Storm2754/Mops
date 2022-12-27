@@ -7,7 +7,11 @@ var logger = require('morgan');
 //подключение базы данных
 var mongoose = require('mongoose')
 mongoose.connect('mongodb://127.0.0.1:27017/mops')
-//конец
+
+
+//Настройка работы сессии 
+var session = require("express-session")
+
 
 var dogs = require('./routes/dogs');//объявление нового маршрутизатора
 var indexRouter = require('./routes/index');
@@ -26,6 +30,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));//объявление public папки
 app.use('/dogs', dogs);
+
+//настройка сесси
+app.use(session({
+  secret: "mops",
+  cookie:{maxAge:60*1000},
+  resave: true,
+  saveUninitialized: true	
+  }))
+  //опция maxAge:60*1000 определяет время жизни session в миллисекундах (60*1000 = 1 минута).
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
