@@ -1,6 +1,4 @@
 
-
-
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -9,9 +7,9 @@ var logger = require('morgan');
 var mongoose = require('mongoose')
 mongoose.connect('mongodb://127.0.0.1:27017/mops')
 var session = require("express-session")
-
-
 var dogs = require('./routes/dogs');
+var Dog = require("./models/dog").Dog
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -42,6 +40,18 @@ app.use(function(req,res,next){
   next()
 })
 
+app.use(function(req,res,next){
+  res.locals.nav = []
+  
+  Dog.find(null,{_id:0,title:1,nick:1},function(err,result){
+  if(err) throw err
+  res.locals.nav = result
+          next()
+      })
+  })
+  
+
+  app.use(require("./middleware/createMenu.js"))
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
