@@ -19,6 +19,11 @@ router.get('/', function(req, res, next) {
 router.get('/logreg', function(req, res, next) {
   res.render('logreg',{title: 'Вход', error:null});
 });
+router.post('/logout', function(req, res, next) {
+  req.session.destroy()
+  res.locals.user = null
+  res.redirect('/')
+});
   
 router.post('/logreg', function(req, res, next) {
   var username = req.body.username
